@@ -1,0 +1,9 @@
+add $t0, $t1, $t2
+sub $s0, $t0, $v0
+and $t0, $t1, $t2
+or $t3, $t4, $t5
+nor $t6, $t7, $s0
+slt $s1, $s2, $s3
+lw $t8, 0x50
+sw $gp, -60
+beq $sp, $fp, 0x01
