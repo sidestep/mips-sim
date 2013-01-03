@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListModel;
 
 
 public class GUI {
@@ -19,11 +20,12 @@ public class GUI {
 	private JCheckBox hexBox;
 	private GUIListener listener;
 	private String filename;
+	private JList instructionList;
 	
 	
 	public GUI() {
 		
-		JList instructionList = new JList();
+		instructionList = new JList();
 		JScrollPane instructionPane = new JScrollPane(instructionList);
 		JPanel leftPanel = new JPanel(new BorderLayout());
 		leftPanel.add(instructionPane);
@@ -139,6 +141,10 @@ public class GUI {
 	
 	public void setGUIListener(GUIListener listener) {
 		this.listener = listener;
+	}
+	
+	public void setInstructionListModel(ListModel instructionModel){
+		instructionList.setModel(instructionModel);
 	}
 	
 	public interface GUIListener {
