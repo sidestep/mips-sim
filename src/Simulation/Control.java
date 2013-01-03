@@ -1,38 +1,72 @@
 package Simulation;
 
 public class Control {
-	private Instruction instruction;
-
-	private boolean RegWrite;
-	private boolean MemRead;
-	private boolean MemWrite;
+	/*
+	 * Each control line, including
+	 * RegDist,
+	 * Branch,
+	 * MemRead,
+	 * MemtoReg,
+	 * ALUOp,
+	 * MemWrite,
+	 * ALUSrc, and
+	 * RegWrite
+	 * must be implemented as a distinct Boolean variable.
+	 */
+	private boolean RegDist;
 	private boolean Branch;
-	private boolean AluOP;
+	private boolean MemRead;
+	private boolean MemtoReg;
+	private boolean ALUOp;
+	private boolean MemWrite;
+	private boolean ALUsrc;
+	private boolean RegWrite;
 
 	public void setInstruction(Instruction instruction) {
-		this.instruction = instruction;
+		short opcode = instruction.getOpcode();
 
+		if(instruction.is_r_type()) {
+			RegWrite = true;
+			ALUOp = true;
+		}
 
+		if((opcode == Instruction.OPCODE_LW)
+				|| (opcode == Instruction.OPCODE_SW)) {
+			ALUsrc = true;
+			ALUOp = true;
+		}
 	}
 
-	public boolean isRegWrite() {
-		return RegWrite;
-	}
-
-	public boolean isMemRead() {
-		return MemRead;
-	}
-
-	public boolean isMemWrite() {
-		return MemWrite;
+	public boolean isRegDist() {
+		return RegDist;
 	}
 
 	public boolean isBranch() {
 		return Branch;
 	}
 
-	public boolean isAluOP() {
-		return AluOP;
+	public boolean isMemRead() {
+		return MemRead;
+	}
+
+	public boolean isMemtoReg() {
+		return MemtoReg;
+	}
+
+	public boolean isALUOp() {
+		return ALUOp;
+	}
+
+	public boolean isMemWrite() {
+		return MemWrite;
+	}
+
+	public boolean isALUsrc() {
+		return ALUsrc;
+	}
+
+	public boolean isRegWrite() {
+		return RegWrite;
 	}
 
 

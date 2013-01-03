@@ -13,7 +13,7 @@ public abstract class DataField {
 	}
 
 	public void reset() {
-		changedFields = new ArrayList();
+		changedFields = new ArrayList<Integer>();
 		for(int i = 0; i < data.length; i++) {
 			data[i] = 0;
 		}

@@ -188,7 +188,7 @@ public class Instruction {
 	}
 
 
-	public boolean isR_type() {
+	public boolean is_r_type() {
 		return r_type;
 	}
 
