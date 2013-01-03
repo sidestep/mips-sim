@@ -17,6 +17,8 @@ import javax.swing.JScrollPane;
 public class GUI {
 	private JFrame frame;
 	private JCheckBox hexBox;
+	private GUIListener listener;
+	private String filename;
 	
 	
 	public GUI() {
@@ -42,7 +44,7 @@ public class GUI {
 		topPanel.add(chooseButton);
 		topPanel.add(loadButton);
 		
-		final JFileChooser fileChooser = new JFileChooser();
+		final JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
 		
 		chooseButton.addActionListener(new ActionListener() {
 			
@@ -51,9 +53,7 @@ public class GUI {
 			        int returnVal = fileChooser.showOpenDialog(frame);
 
 			        if (returnVal == JFileChooser.APPROVE_OPTION) {
-			            //	This is where a real application would open the file.
-			        } else {
-			            //	Do stuff...
+			            filename = fileChooser.getSelectedFile().getPath();
 			        }
 			   }
 		});
@@ -62,7 +62,9 @@ public class GUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//	Reload file and reset everything				
+				if(filename != null){
+					listener.onLoad(filename);
+				}
 			}
 		});
 		
@@ -83,7 +85,7 @@ public class GUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//	Call step function in controller				
+				listener.onStep();			
 			}
 		});
 		
@@ -91,7 +93,7 @@ public class GUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//	Call run function in controller	
+				listener.onRun();
 			}
 		});
 		
@@ -99,7 +101,7 @@ public class GUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//	Call stop function in controller	
+				listener.onStop();	
 			}
 		});
 		
@@ -107,7 +109,7 @@ public class GUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//	Call reset function in controller	
+				listener.onReset();	
 			}
 		});
 		
@@ -116,9 +118,9 @@ public class GUI {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(hexBox.isSelected()){
-					// 	Call setHex function in controller
+					listener.onHex();
 				} else {
-					//	Call setDec function in controller
+					listener.onDec();
 				}
 			}
 		});
@@ -133,5 +135,19 @@ public class GUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		
-	}	
+	}
+	
+	public void setGUIListener(GUIListener listener) {
+		this.listener = listener;
+	}
+	
+	public interface GUIListener {
+		public void onLoad(String filename);
+		public void onStep();
+		public void onRun();
+		public void onStop();
+		public void onReset();
+		public void onHex();
+		public void onDec();
+	}
 }
