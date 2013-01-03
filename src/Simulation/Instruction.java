@@ -151,4 +151,49 @@ public class Instruction {
 
 		return parseAddr(register);
 	}
+
+
+	public String getRepr() {
+		return repr;
+	}
+
+
+	public short getOpcode() {
+		return opcode;
+	}
+
+
+	public short getFunct() {
+		return funct;
+	}
+
+
+	public short getRd() {
+		return rd;
+	}
+
+
+	public short getRs() {
+		return rs;
+	}
+
+
+	public short getRt() {
+		return rt;
+	}
+
+
+	public short getAddr() {
+		return addr;
+	}
+
+
+	public boolean isR_type() {
+		return r_type;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s", repr);
+	}
 }
