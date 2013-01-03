@@ -1,5 +1,6 @@
 # mips-sim
-A MIPS-simulator partially implementing the MIPS instruction set.
+A MIPS-simulator implementing a very small subset of the MIPS instruction set.
+
 Comes with a swing GUI
 
 
@@ -29,4 +30,4 @@ Comes with a swing GUI
 
     beq rs, rt, label   4
     nop                 0
-    exit                0, 0xc with $v = 10
+    exit                0, 0xc with $v = 10 (???)
