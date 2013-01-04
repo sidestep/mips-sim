@@ -1,16 +1,11 @@
-nor $t2, $zero, $zero
-add $t2, $t0, $t1
-add $t3, $t1, $t2
-add $t4, $t2, $t3
+nor $t1, $zero, $zero
+add $t2, $t1, $t1
+sub $t3, $t1, $t2
+add $t1, $t3, $zero
 
-
-
-add $t0, $t1, $t2
-sub $s0, $t0, $v0
-and $t0, $t1, $t2
-or $t3, $t4, $t5
-nor $t6, $t7, $s0
-slt $s1, $s2, $s3
-lw $t8, 0x50
-sw $gp, -60
-beq $sp, $fp, 0x01
+add $t2, $t1, $t0
+add $t3, $t2, $t1
+add $t4, $t3, $t2
+add $t5, $t4, $t3
+add $t6, $t5, $t4
+add $t7, $t6, $t5

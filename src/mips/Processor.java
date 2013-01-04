@@ -61,8 +61,8 @@ public class Processor {
 			alu_out = alu.operation(
 					i.getOpcode(),
 					i.getFunct(),
-					i.getRt(),
-					mux(rtv, i.getAddr(), control.isALUsrc()));
+					rtv,
+					mux(rsv, i.getAddr(), control.isALUsrc()));
 		}
 
 		if(control.isMemRead()) {
