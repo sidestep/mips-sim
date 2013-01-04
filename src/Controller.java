@@ -6,8 +6,10 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 
-import Simulation.Instruction;
-import Simulation.Processor;
+import mips.Instruction;
+import mips.Processor;
+
+
 
 
 

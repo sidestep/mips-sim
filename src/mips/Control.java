@@ -1,4 +1,4 @@
-package Simulation;
+package mips;
 
 public class Control {
 	/*

@@ -1,4 +1,4 @@
-package Simulation;
+package mips;
 
 public class ALU {
 	public short operation(short op, short funct, short rt, short rsimm) {

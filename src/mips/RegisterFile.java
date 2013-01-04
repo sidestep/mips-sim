@@ -1,4 +1,4 @@
-package Simulation;
+package mips;
 
 public class RegisterFile extends DataField {
 	public RegisterFile() {

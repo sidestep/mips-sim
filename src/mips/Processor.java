@@ -1,4 +1,4 @@
-package Simulation;
+package mips;
 import java.util.List;
 
 
