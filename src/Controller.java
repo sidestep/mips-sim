@@ -13,17 +13,13 @@ import mips.Instruction;
 import mips.Processor;
 import mips.RegisterFile;
 
-
-
-
-
 public class Controller {
 	private GUI gui;
 	private Processor processor;
 	
-	private DefaultListModel instructionModel;
-	private DefaultListModel registerModel;
-	private DefaultListModel memoryModel;
+	private DefaultListModel<String> instructionModel;
+	private DefaultListModel<String> registerModel;
+	private DefaultListModel<String> memoryModel;
 	
 	
 	private volatile boolean running = false;
@@ -35,13 +31,13 @@ public class Controller {
 		
 		processor = new Processor();
 		
-		instructionModel = new DefaultListModel();
+		instructionModel = new DefaultListModel<String>();
 		gui.setInstructionListModel(instructionModel);
 		
-		registerModel = new DefaultListModel();
+		registerModel = new DefaultListModel<String>();
 		gui.setRegisterListModel(registerModel);
 		
-		memoryModel = new DefaultListModel();
+		memoryModel = new DefaultListModel<String>();
 		gui.setMemoryListModel(memoryModel);
 	}
 	
@@ -156,13 +152,18 @@ public class Controller {
 		}
 		
 		try {
+			int i = 0;
 			while((line = reader.readLine()) != null){
+				i++;
+				if(line.length() == 0) {
+					continue;
+				}
 				try {
 						Instruction instruction = new Instruction(line);
 						instructions.add(instruction);
-						instructionModel.addElement(instruction);
+						instructionModel.addElement(instruction.toString());
 				} catch (Exception e) {
-					System.out.printf("Could not translate \"%s\" into an instruction\n", line);
+					System.out.printf("Invalid instruction '%s' on line %d\n", line, i);
 				}
 			}
 		} catch (IOException e) {
@@ -205,11 +206,13 @@ public class Controller {
 		@Override
 		public void onHex() {
 			hexadecimal = true;
+			refresh();
 		}
 		
 		@Override
 		public void onDec() {
 			hexadecimal = false;
+			refresh();
 		}
 	};
 	
