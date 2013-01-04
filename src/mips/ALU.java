@@ -13,7 +13,7 @@ public class ALU {
 			case Instruction.FUNCT_OR:
 				return (short) (rsimm | rt);
 			case Instruction.FUNCT_NOR:
-				return (short) ~(rsimm | rt);
+				return (short) ~((byte)((byte)rsimm | (byte)rt));
 			case Instruction.FUNCT_SLT:
 				return (short) ((rsimm < rt) ? 1 : 0);
 			}

@@ -21,6 +21,8 @@ public class GUI {
 	private GUIListener listener;
 	private String filename;
 	private JList instructionList;
+	private JList registerList;
+	private JList memoryList;
 	
 	
 	public GUI() {
@@ -30,13 +32,13 @@ public class GUI {
 		JPanel leftPanel = new JPanel(new BorderLayout());
 		leftPanel.add(instructionPane);
 		
-		JList registerList = new JList();
-		JList dataList = new JList();
+		registerList = new JList();
+		memoryList = new JList();
 		JScrollPane registerPane = new JScrollPane(registerList);
-		JScrollPane dataPane = new JScrollPane(dataList);
+		JScrollPane dataPane = new JScrollPane(memoryList);
 		JPanel rightPanel = new JPanel(new BorderLayout());
-		rightPanel.add(dataPane, BorderLayout.WEST);
-		rightPanel.add(registerPane, BorderLayout.EAST);
+		rightPanel.add(dataPane, BorderLayout.EAST);
+		rightPanel.add(registerPane, BorderLayout.WEST);
 		
 		JLabel loadLabel = new JLabel("Load input file");
 		JButton chooseButton = new JButton("Choose");
@@ -143,8 +145,16 @@ public class GUI {
 		this.listener = listener;
 	}
 	
-	public void setInstructionListModel(ListModel instructionModel){
-		instructionList.setModel(instructionModel);
+	public void setInstructionListModel(ListModel model){
+		instructionList.setModel(model);
+	}
+	
+	public void setRegisterListModel(ListModel model){
+		registerList.setModel(model);
+	}
+	
+	public void setMemoryListModel(ListModel model){
+		memoryList.setModel(model);
 	}
 	
 	public interface GUIListener {
@@ -155,5 +165,13 @@ public class GUI {
 		public void onReset();
 		public void onHex();
 		public void onDec();
+	}
+
+	public void selectInstruction(int index) {
+		instructionList.setSelectedIndex(index);
+	}
+	
+	public void clearInstructionSelection() {
+		instructionList.clearSelection();
 	}
 }
