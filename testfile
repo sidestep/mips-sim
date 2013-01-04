@@ -1,3 +1,10 @@
+nor $t2, $zero, $zero
+add $t2, $t0, $t1
+add $t3, $t1, $t2
+add $t4, $t2, $t3
+
+
+
 add $t0, $t1, $t2
 sub $s0, $t0, $v0
 and $t0, $t1, $t2

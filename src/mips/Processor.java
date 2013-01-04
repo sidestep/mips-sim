@@ -1,5 +1,6 @@
 package mips;
 import java.util.List;
+import java.util.ListIterator;
 
 
 
@@ -9,20 +10,30 @@ public class Processor {
 	private int pc;
 
 	private Control control;
-	private RegisterFile reg;
-	private DataFile data;
+	private RegisterFile register;
+	private MemoryFile memory;
 	private ALU alu;
 
 	public Processor() {
 		control = new Control();
-		reg = new RegisterFile();
-		data = new DataFile();
+		register = new RegisterFile();
+		memory = new MemoryFile();
 		alu = new ALU();
 
 	}
 
 	public void setInstructionSet(List<Instruction> instructions) {
-		this.instructions = (Instruction[]) instructions.toArray();
+		this.instructions = new Instruction[instructions.size()];
+		ListIterator<Instruction> iterator = instructions.listIterator();
+		for(int i = 0; i < instructions.size(); i++) {
+			this.instructions[i] = iterator.next();
+		}
+	}
+	
+	public void reset() {
+		pc = 0;
+		register.reset();
+		memory.reset();
 	}
 
 	public void step() {
@@ -42,9 +53,9 @@ public class Processor {
 
 		pc += 4;
 
-		rtv = reg.get(i.getRt());
-		rsv = reg.get(i.getRs());
-		rdv = reg.get(i.getRd());
+		rtv = register.get(i.getRt());
+		rsv = register.get(i.getRs());
+		rdv = register.get(i.getRd());
 
 		if(control.isALUOp()) {
 			alu_out = alu.operation(
@@ -55,11 +66,11 @@ public class Processor {
 		}
 
 		if(control.isMemRead()) {
-			data_out = data.get(alu_out);
+			data_out = memory.get(alu_out);
 		}
 
 		if(control.isRegWrite()) {
-			reg.set(i.getRd(),
+			register.set(i.getRd(),
 					(byte)mux(alu_out, data_out, control.isMemtoReg()));
 		}
 
@@ -72,6 +83,32 @@ public class Processor {
 		return value1;
 	}
 
+	public boolean isDone() {
+		return (pc/4) >= instructions.length || instructions[pc/4].isExit();
+	}
+
+	/**
+	 * @return the pc
+	 */
+	public int getPc() {
+		return pc;
+	}
+	
+	public byte[] getRegisters() {
+		return register.getBytes();
+	}
+	
+	public byte[] getMemory() {
+		return memory.getBytes();
+	}
+	
+	public List<Integer> getChangedRegisters() {
+		return register.getChangedIndices();
+	}
+	
+	public List<Integer> getChangedMemory() {
+		return memory.getChangedIndices();
+	}
 
 
 }

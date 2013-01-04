@@ -24,6 +24,7 @@ public class Instruction {
 	private short rt = 0;
 	private short addr = 0;
 	private boolean r_type = false;
+	private boolean is_exit;
 
 
 	public Instruction(String line) throws Exception {
@@ -34,6 +35,7 @@ public class Instruction {
 		String op = "", t1 = "", t2 = "", t3 = "";
 
 		op = tokens.nextToken();
+
 		try {
 			t1 = tokens.nextToken();
 			t2 = tokens.nextToken();
@@ -69,6 +71,10 @@ public class Instruction {
 		else if(op.equalsIgnoreCase("beq")) {
 			opcode = OPCODE_BEQ;
 		}
+		
+		else if(op.equalsIgnoreCase("exit")) {
+			is_exit = true;
+		}
 
 
 		// Parse additional parameters
@@ -76,21 +82,15 @@ public class Instruction {
 			rt = parseReg(t1);
 			addr = parseAddr(t2);
 
-			System.out.printf("0x%x, %d, 0x%x\n", opcode, rt, addr);
-
 		} else if(r_type) {
 			rd = parseReg(t1);
 			rs = parseReg(t2);
 			rt = parseReg(t3);
 
-			System.out.printf("0x%x, %d, %d, %d\n", funct, rd, rs, rt);
-
 		} else if(opcode == OPCODE_BEQ) {
 			rs = parseReg(t1);
 			rt = parseReg(t2);
 			addr = parseAddr(t3);
-
-			System.out.printf("0x%x, %d, %d, 0x%x\n", opcode, rs, rt, addr);
 		}
 
 
@@ -135,7 +135,7 @@ public class Instruction {
 				break;
 			case 't':
 				number += 8;
-				if(number >= 8) {
+				if(number >= 16) {
 					number += 8;
 				}
 				break;
@@ -146,6 +146,7 @@ public class Instruction {
 			default:
 				throw new Exception("Invalid register " + register);
 			}
+			assert(register.equals(RegisterFile.name(number)));
 			return number;
 		}
 
@@ -195,5 +196,10 @@ public class Instruction {
 	@Override
 	public String toString() {
 		return String.format("%s", repr);
+	}
+
+
+	public boolean isExit() {
+		return is_exit;
 	}
 }

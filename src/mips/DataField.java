@@ -24,9 +24,23 @@ public abstract class DataField {
 	}
 
 	protected void set(int index, byte value) {
-		changedFields.add(index);
+		touch(index);
 		data[index] = value;
 	}
-
+	
+	private void touch(int index) {
+		if(changedFields.contains(index)) {
+			changedFields.remove(changedFields.indexOf(index));
+		}
+		changedFields.add(0, index);
+	}
+	
+	public byte[] getBytes() {
+		return data.clone();
+	}
+	
+	public List<Integer> getChangedIndices() {
+		return new ArrayList<Integer>(changedFields);
+	}
 
 }
