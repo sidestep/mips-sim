@@ -23,15 +23,15 @@ public class GUI {
 	private JList instructionList;
 	private JList registerList;
 	private JList memoryList;
-	
-	
+
+
 	public GUI() {
-		
+
 		instructionList = new JList();
 		JScrollPane instructionPane = new JScrollPane(instructionList);
 		JPanel leftPanel = new JPanel(new BorderLayout());
 		leftPanel.add(instructionPane);
-		
+
 		registerList = new JList();
 		memoryList = new JList();
 		JScrollPane registerPane = new JScrollPane(registerList);
@@ -39,7 +39,7 @@ public class GUI {
 		JPanel rightPanel = new JPanel(new BorderLayout());
 		rightPanel.add(dataPane, BorderLayout.EAST);
 		rightPanel.add(registerPane, BorderLayout.WEST);
-		
+
 		JLabel loadLabel = new JLabel("Load input file");
 		JButton chooseButton = new JButton("Choose");
 		JButton loadButton = new JButton("Load");
@@ -47,23 +47,23 @@ public class GUI {
 		topPanel.add(loadLabel);
 		topPanel.add(chooseButton);
 		topPanel.add(loadButton);
-		
+
 		final JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
-		
+
 		chooseButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			        int returnVal = fileChooser.showOpenDialog(frame);
+				int returnVal = fileChooser.showOpenDialog(frame);
 
-			        if (returnVal == JFileChooser.APPROVE_OPTION) {
-			            filename = fileChooser.getSelectedFile().getPath();
-			        }
-			   }
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					filename = fileChooser.getSelectedFile().getPath();
+				}
+			}
 		});
-		
+
 		loadButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(filename != null){
@@ -71,8 +71,8 @@ public class GUI {
 				}
 			}
 		});
-		
-		
+
+
 		JButton stepButton = new JButton("Step");
 		JButton runButton = new JButton("Run");
 		JButton stopButton = new JButton("Stop");
@@ -84,41 +84,41 @@ public class GUI {
 		botPanel.add(stopButton);
 		botPanel.add(resetButton);
 		botPanel.add(hexBox);
-		
+
 		stepButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				listener.onStep();			
 			}
 		});
-		
+
 		runButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				listener.onRun();
 			}
 		});
-		
+
 		stopButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				listener.onStop();	
 			}
 		});
-		
+
 		resetButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				listener.onReset();	
 			}
 		});
-		
+
 		hexBox.addItemListener(new ItemListener() {
-			
+
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(hexBox.isSelected()){
@@ -128,8 +128,8 @@ public class GUI {
 				}
 			}
 		});
-		
-		
+
+
 		frame = new JFrame("MIPS Simulator");
 		frame.add(leftPanel, BorderLayout.CENTER);
 		frame.add(rightPanel, BorderLayout.EAST);
@@ -138,25 +138,25 @@ public class GUI {
 		frame.setSize(1024, 768);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+
 	}
-	
+
 	public void setGUIListener(GUIListener listener) {
 		this.listener = listener;
 	}
-	
+
 	public void setInstructionListModel(ListModel model){
 		instructionList.setModel(model);
 	}
-	
+
 	public void setRegisterListModel(ListModel model){
 		registerList.setModel(model);
 	}
-	
+
 	public void setMemoryListModel(ListModel model){
 		memoryList.setModel(model);
 	}
-	
+
 	public interface GUIListener {
 		public void onLoad(String filename);
 		public void onStep();
@@ -170,7 +170,7 @@ public class GUI {
 	public void selectInstruction(int index) {
 		instructionList.setSelectedIndex(index);
 	}
-	
+
 	public void clearInstructionSelection() {
 		instructionList.clearSelection();
 	}

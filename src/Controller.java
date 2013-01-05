@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 
 import mips.Instruction;
@@ -16,31 +15,30 @@ import mips.RegisterFile;
 public class Controller {
 	private GUI gui;
 	private Processor processor;
-	
+
 	private DefaultListModel<String> instructionModel;
 	private DefaultListModel<String> registerModel;
 	private DefaultListModel<String> memoryModel;
-	
-	
+
 	private volatile boolean running = false;
 	private boolean hexadecimal = false;
-	
+
 	public Controller() {
 		gui = new GUI();
 		gui.setGUIListener(listener);
-		
+
 		processor = new Processor();
-		
+
 		instructionModel = new DefaultListModel<String>();
 		gui.setInstructionListModel(instructionModel);
-		
+
 		registerModel = new DefaultListModel<String>();
 		gui.setRegisterListModel(registerModel);
-		
+
 		memoryModel = new DefaultListModel<String>();
 		gui.setMemoryListModel(memoryModel);
 	}
-	
+
 	/**
 	 * Refresh the interface with the current processor state
 	 */
@@ -51,10 +49,10 @@ public class Controller {
 		} else {
 			gui.selectInstruction(instructionIndex);
 		}
-		
+
 		registerModel.clear();
 		memoryModel.clear();
-		
+
 		byte[] registerData = processor.getRegisters();
 		List<Integer> changedRegisters = processor.getChangedRegisters();
 		for(int index : changedRegisters) {
@@ -62,7 +60,7 @@ public class Controller {
 					"%s: %s", RegisterFile.name(index), string_value(registerData[index]));
 			registerModel.addElement(repr);
 		}
-		
+
 		byte[] memoryData = processor.getMemory();
 		List<Integer> changedMemory = processor.getChangedMemory();
 		for(int index : changedMemory) {
@@ -70,26 +68,27 @@ public class Controller {
 					"%s: %s", string_value((short)index), string_value(memoryData[index]));
 			memoryModel.addElement(repr);
 		}
-		
-		
+
+
 	}
-	
+
 	private String string_value(short b) {
 		if(hexadecimal) {
-			return String.format("0x%x", ((int)b) & 0xff);
+			return String.format("0x%x", b & 0xff);
 		} else {
-			return String.format("%d", ((int)b) & 0xff);
+			return String.format("%d", b & 0xff);
 		}
 	}
 
 	private void refreshLater() {
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				refresh();
 			}
 		});
 	}
-	
+
 	/**
 	 * Run the simulation until it ends or the user stops
 	 */
@@ -98,6 +97,7 @@ public class Controller {
 			return;
 		}
 		new Thread(){
+			@Override
 			public void run() {
 				if(running) {
 					return;
@@ -110,21 +110,21 @@ public class Controller {
 			};
 		}.run();
 	}
-	
+
 	/**
 	 * Stop automatic running
 	 */
 	private void stop() {
 		running = false;
 	}
-	
+
 	/**
 	 * Step the simulation, effectively moving the simulation forward
 	 */
 	private synchronized void step() {
 		processor.step();
 	}
-	
+
 	/**
 	 * Reset the simulation to initial state
 	 */
@@ -133,14 +133,14 @@ public class Controller {
 		step(); //Block until running stops
 		processor.reset();
 	}
-	
+
 	private void load(String filename) {
 		String line;
 		BufferedReader reader = null;
 		ArrayList<Instruction> instructions = new ArrayList<Instruction>();
-		
+
 		instructionModel.clear();
-		
+
 		try {
 			reader = new BufferedReader(new FileReader(filename));
 		} catch (FileNotFoundException e) {
@@ -150,7 +150,7 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		try {
 			int i = 0;
 			while((line = reader.readLine()) != null){
@@ -159,9 +159,9 @@ public class Controller {
 					continue;
 				}
 				try {
-						Instruction instruction = new Instruction(line);
-						instructions.add(instruction);
-						instructionModel.addElement(instruction.toString());
+					Instruction instruction = new Instruction(line);
+					instructions.add(instruction);
+					instructionModel.addElement(instruction.toString());
 				} catch (Exception e) {
 					System.out.printf("Invalid instruction '%s' on line %d\n", line, i);
 				}
@@ -172,50 +172,50 @@ public class Controller {
 		processor.setInstructionSet(instructions);
 		refresh();
 	}
-	
+
 	private GUI.GUIListener listener = new GUI.GUIListener() {
-		
+
 		@Override
 		public void onStop() {
 			stop();
 			refresh();
 		}
-		
+
 		@Override
 		public void onStep() {
 			step();
 			refresh();
 		}
-		
+
 		@Override
 		public void onRun() {
 			run();
 		}
-		
+
 		@Override
 		public void onReset() {
 			reset();
 			refresh();
 		}
-		
+
 		@Override
 		public void onLoad(String filename) {
 			load(filename);
 		}
-		
+
 		@Override
 		public void onHex() {
 			hexadecimal = true;
 			refresh();
 		}
-		
+
 		@Override
 		public void onDec() {
 			hexadecimal = false;
 			refresh();
 		}
 	};
-	
+
 	public static void main(String[] args) {
 		new Controller();
 	}
