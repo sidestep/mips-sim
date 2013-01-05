@@ -29,7 +29,7 @@ public class Processor {
 			this.instructions[i] = iterator.next();
 		}
 	}
-	
+
 	public void reset() {
 		pc = 0;
 		register.reset();
@@ -40,11 +40,10 @@ public class Processor {
 		Instruction i;
 		short alu_out = 0;
 		short data_out = 0;
-		short rdv = 0;
 		short rtv = 0;
 		short rsv = 0;
 
-		if((pc/4) >= instructions.length) {
+		if(pc/4 >= instructions.length) {
 			return;
 		}
 		i = instructions[pc/4];
@@ -55,14 +54,13 @@ public class Processor {
 
 		rtv = register.get(i.getRt());
 		rsv = register.get(i.getRs());
-		rdv = register.get(i.getRd());
 
 		if(control.isALUOp()) {
 			alu_out = alu.operation(
 					i.getOpcode(),
 					i.getFunct(),
-					rtv,
-					mux(rsv, i.getAddr(), control.isALUsrc()));
+					mux(rtv, i.getAddr(), control.isALUsrc()),
+					rsv);
 		}
 
 		if(control.isMemRead()) {
@@ -70,7 +68,8 @@ public class Processor {
 		}
 
 		if(control.isRegWrite()) {
-			register.set(i.getRd(),
+			register.set(
+					mux(i.getRd(), i.getRt(), control.isRegDist()),
 					(byte)mux(alu_out, data_out, control.isMemtoReg()));
 		}
 
@@ -84,7 +83,7 @@ public class Processor {
 	}
 
 	public boolean isDone() {
-		return (pc/4) >= instructions.length || instructions[pc/4].isExit();
+		return pc/4 >= instructions.length || instructions[pc/4].isExit();
 	}
 
 	/**
@@ -93,19 +92,19 @@ public class Processor {
 	public int getPc() {
 		return pc;
 	}
-	
+
 	public byte[] getRegisters() {
 		return register.getBytes();
 	}
-	
+
 	public byte[] getMemory() {
 		return memory.getBytes();
 	}
-	
+
 	public List<Integer> getChangedRegisters() {
 		return register.getChangedIndices();
 	}
-	
+
 	public List<Integer> getChangedMemory() {
 		return memory.getChangedIndices();
 	}

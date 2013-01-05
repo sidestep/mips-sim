@@ -1,6 +1,5 @@
 package mips;
 
-import java.util.Hashtable;
 
 public class RegisterFile extends DataField {
 	public RegisterFile() {
@@ -14,7 +13,7 @@ public class RegisterFile extends DataField {
 		}
 		return super.get(index);
 	}
-	
+
 	@Override
 	protected void set(int index, byte value) {
 		if(index == 0) {
@@ -22,7 +21,7 @@ public class RegisterFile extends DataField {
 		}
 		super.set(index, value);
 	}
-	
+
 
 	public static String name(int index) {
 		String[] names = {
@@ -58,7 +57,7 @@ public class RegisterFile extends DataField {
 				"$sp",
 				"$fp",
 				"$ra"
-			};
+		};
 		return names[index];
 	}
 
