@@ -9,3 +9,5 @@ add $t4, $t3, $t2
 add $t5, $t4, $t3
 add $t6, $t5, $t4
 add $t7, $t6, $t5
+exit
+add $t8, $t7, $t7
