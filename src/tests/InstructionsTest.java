@@ -85,7 +85,13 @@ public class InstructionsTest {
 		assertEquals("opcode", Instruction.OPCODE_BEQ, i.getOpcode());
 		assertEquals("rs", 29, i.getRs());
 		assertEquals("rt", 30, i.getRt());
-		assertEquals("addr", 0x01,  i.getAddr());
+		assertEquals("addr", 0x01, i.getAddr());
+	}
+	
+	@Test
+	public void exit() throws Exception {
+		Instruction i = new Instruction("exit");
+		assertEquals("exit", true, i.isExit());
 	}
 	
 	

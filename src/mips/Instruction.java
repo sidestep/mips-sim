@@ -4,17 +4,17 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 public class Instruction {
-	public static final int FUNCT_ADD = 0x20;
-	public static final int FUNCT_SUB = 0x22;
-	public static final int FUNCT_AND = 0x24;
-	public static final int FUNCT_OR = 0x25;
-	public static final int FUNCT_NOR = 0x27;
-	public static final int FUNCT_SLT = 0x2a;
+	public static final short FUNCT_ADD = 0x20;
+	public static final short FUNCT_SUB = 0x22;
+	public static final short FUNCT_AND = 0x24;
+	public static final short FUNCT_OR = 0x25;
+	public static final short FUNCT_NOR = 0x27;
+	public static final short FUNCT_SLT = 0x2a;
 
-	public static final int OPCODE_LW = 0x23;
-	public static final int OPCODE_SW = 0x2b;
+	public static final short OPCODE_LW = 0x23;
+	public static final short OPCODE_SW = 0x2b;
 
-	public static final int OPCODE_BEQ = 4;
+	public static final short OPCODE_BEQ = 4;
 
 	private String repr;
 	private short opcode = 0;
