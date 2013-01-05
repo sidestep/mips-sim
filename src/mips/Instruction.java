@@ -79,7 +79,7 @@ public class Instruction {
 
 		// Parse additional parameters
 		if((opcode == OPCODE_LW) || (opcode == OPCODE_SW)) {
-			rt = parseReg(t1);
+			rd = parseReg(t1);
 			addr = parseAddr(t2);
 
 		} else if(r_type) {
