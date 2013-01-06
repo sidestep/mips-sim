@@ -1,30 +1,28 @@
 package mips;
 
 public class ALU {
-	public int operation(short op, short funct, int srcv, int rsv) {
-		if(op == 0) {
-			switch(funct) {
-			case Instruction.FUNCT_ADD:
-				return rsv + srcv;
-			case Instruction.FUNCT_SUB:
-				return rsv - srcv;
-			case Instruction.FUNCT_AND:
-				return rsv & srcv;
-			case Instruction.FUNCT_OR:
-				return rsv | srcv;
-			case Instruction.FUNCT_NOR:
-				return ~((byte)((byte)rsv | (byte)srcv));
-			case Instruction.FUNCT_SLT:
-				return rsv < srcv ? 1 : 0;
-			}
-		}
+	public static final short AND = 0;
+	public static final short OR = 1;
 
-		switch(op) {
-		case Instruction.OPCODE_LW:
-		case Instruction.OPCODE_SW:
-			return operation((short)0, Instruction.FUNCT_ADD, srcv, rsv);
-		case Instruction.OPCODE_BEQ:
-			return operation((short)0, Instruction.FUNCT_SUB, srcv, rsv);
+	public static final short ADD = 2;
+	public static final short NOR = 3;
+	public static final short SUBTRACT = 6;
+	public static final short SLT = 7;
+
+	public int operation(short control, int srcv, int rsv) {
+		switch(control) {
+		case ADD:
+			return rsv + srcv;
+		case SUBTRACT:
+			return rsv - srcv;
+		case AND:
+			return rsv & srcv;
+		case OR:
+			return rsv | srcv;
+		case NOR:
+			return ~(rsv | srcv);
+		case SLT:
+			return rsv < srcv ? 1 : 0;
 		}
 
 		return 0;

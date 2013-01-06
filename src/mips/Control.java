@@ -17,7 +17,8 @@ public class Control {
 	private boolean Branch;
 	private boolean MemRead;
 	private boolean MemtoReg;
-	private boolean ALUOp;
+	private boolean ALUOp1;
+	private boolean ALUOp0;
 	private boolean MemWrite;
 	private boolean ALUsrc;
 	private boolean RegWrite;
@@ -26,14 +27,26 @@ public class Control {
 		short opcode = instruction.getOpcode();
 
 		if(instruction.is_r_type()) {
+			RegDist = true;
 			RegWrite = true;
-			ALUOp = true;
+			ALUOp1 = true;
 		}
 
-		if((opcode == Instruction.OPCODE_LW)
-				|| (opcode == Instruction.OPCODE_SW)) {
+		if(opcode == Instruction.OPCODE_LW) {
+			MemRead = true;
+			MemtoReg = true;
+			RegWrite = true;
 			ALUsrc = true;
-			ALUOp = true;
+		}
+
+		if(opcode == Instruction.OPCODE_SW) {
+			MemWrite = true;
+			ALUsrc = true;
+		}
+
+		if(opcode == Instruction.OPCODE_BEQ) {
+			Branch = true;
+			ALUOp0 = true;
 		}
 	}
 
@@ -53,8 +66,12 @@ public class Control {
 		return MemtoReg;
 	}
 
-	public boolean isALUOp() {
-		return ALUOp;
+	public boolean isALUOp1() {
+		return ALUOp1;
+	}
+
+	public boolean isALUOp0() {
+		return ALUOp0;
 	}
 
 	public boolean isMemWrite() {
