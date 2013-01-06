@@ -1,5 +1,9 @@
 package mips;
 
+/**
+ * The mips control module, exhibits or inhibits processor modules 
+ * depending on the instruction.
+ */
 public class Control {
 	/*
 	 * Each control line, including

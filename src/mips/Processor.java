@@ -2,8 +2,11 @@ package mips;
 import java.util.List;
 import java.util.ListIterator;
 
-
-
+/**
+ * This class weaves together all the modules of the mips processor
+ * with muxes, provides a way to step through a set of instructions, 
+ * and allows the state of the register and memory to be retrieved.
+ */
 public class Processor {
 
 	private Instruction[] instructions = {};
@@ -13,27 +16,41 @@ public class Processor {
 	private MemoryFile memory;
 	private ALU alu;
 
+	/**
+	 * Creates a new processor with a zeroes register and memory
+	 */
 	public Processor() {
 		register = new RegisterFile();
 		memory = new MemoryFile();
 		alu = new ALU();
-
 	}
 
+	/**
+	 * Feeds instructions into the processor
+	 * Also resets the processor
+	 * @param instructions
+	 */
 	public void setInstructionSet(List<Instruction> instructions) {
 		this.instructions = new Instruction[instructions.size()];
 		ListIterator<Instruction> iterator = instructions.listIterator();
 		for(int i = 0; i < instructions.size(); i++) {
 			this.instructions[i] = iterator.next();
 		}
+		reset();
 	}
 
+	/**
+	 * Resets all registers and memory locations to 0, and the pc to 0
+	 */
 	public void reset() {
 		pc = 0;
 		register.reset();
 		memory.reset();
 	}
 
+	/**
+	 * Steps through the iteration. Does nothing when the simulation has ended
+	 */
 	public void step() {
 		Instruction i;
 		int alu_out = 0;
@@ -85,6 +102,10 @@ public class Processor {
 		return value1;
 	}
 
+	/**
+	 * Returns true if the simulation is done
+	 * @return
+	 */
 	public boolean isDone() {
 		return pc/4 >= instructions.length || instructions[pc/4].isExit();
 	}

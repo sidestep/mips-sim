@@ -3,6 +3,9 @@ package mips;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
+/**
+ * A mips instruction representation
+ */
 public class Instruction {
 	public static final short FUNCT_ADD = 0x20;
 	public static final short FUNCT_SUB = 0x22;
@@ -25,8 +28,13 @@ public class Instruction {
 	private short addr = 0;
 	private boolean r_type = false;
 	private boolean is_exit;
+	private boolean is_nop;
 
-
+	/**
+	 * Create a new mips instruction from a line of mips assembly
+	 * @param line A line of valid mips assembly, within the supported subset
+	 * @throws Exception if the instruction could not be parsed
+	 */
 	public Instruction(String line) throws Exception {
 		repr = line;
 
@@ -72,6 +80,10 @@ public class Instruction {
 			opcode = OPCODE_BEQ;
 		}
 
+		else if(op.equalsIgnoreCase("nop")) {
+			is_nop = true;
+		}
+
 		else if(op.equalsIgnoreCase("exit")) {
 			is_exit = true;
 		}
@@ -98,11 +110,6 @@ public class Instruction {
 			addr = parseAddr(t3);
 		}
 
-
-
-
-
-
 	}
 
 
@@ -119,7 +126,6 @@ public class Instruction {
 		}
 	}
 
-
 	private short parseAddr(String address) {
 		if(address.contains("x")) {
 			return Short.parseShort(
@@ -128,7 +134,12 @@ public class Instruction {
 		return Short.parseShort(address);
 	}
 
-
+	/**
+	 * Parse a string representation of a mips register into a register number
+	 * @param register the string representation, such as "$t0" or "0x3" or "0"
+	 * @return the register number
+	 * @throws Exception if the string representation could not be parsed
+	 */
 	private short parseReg(String register) throws Exception {
 		if(register.charAt(0) == '$') {
 			if(register.equalsIgnoreCase("$zero")) {
@@ -220,5 +231,10 @@ public class Instruction {
 
 	public boolean isExit() {
 		return is_exit;
+	}
+
+
+	public boolean isNop() {
+		return is_nop;
 	}
 }

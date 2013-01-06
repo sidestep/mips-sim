@@ -1,5 +1,8 @@
 package mips;
 
+/**
+ * The mathematical/logical unit of the mips processor
+ */
 public class ALU {
 	public static final short AND = 0;
 	public static final short OR = 1;

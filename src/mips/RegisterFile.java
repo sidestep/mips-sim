@@ -1,6 +1,8 @@
 package mips;
 
-
+/**
+ * The processor register file
+ */
 public class RegisterFile extends DataField {
 	public RegisterFile() {
 		super(32);
@@ -21,7 +23,6 @@ public class RegisterFile extends DataField {
 		}
 		super.set(index, value);
 	}
-
 
 	public static String name(int index) {
 		String[] names = {
@@ -60,5 +61,4 @@ public class RegisterFile extends DataField {
 		};
 		return names[index];
 	}
-
 }

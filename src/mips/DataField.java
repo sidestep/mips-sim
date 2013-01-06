@@ -3,6 +3,9 @@ package mips;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An abstract data field that keeps track of changed values
+ */
 public abstract class DataField {
 	private int[] data;
 	private List<Integer> changedFields;
