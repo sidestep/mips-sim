@@ -71,17 +71,22 @@ public class Instruction {
 		else if(op.equalsIgnoreCase("beq")) {
 			opcode = OPCODE_BEQ;
 		}
-		
+
 		else if(op.equalsIgnoreCase("exit")) {
 			is_exit = true;
 		}
 
 
 		// Parse additional parameters
-		if((opcode == OPCODE_LW) || (opcode == OPCODE_SW)) {
-			rd = parseReg(t1);
-			addr = parseAddr(t2);
-
+		if(opcode == OPCODE_LW || opcode == OPCODE_SW) {
+			rt = parseReg(t1);
+			if(t2.indexOf('(') != -1) {
+				rs = parseWrappedReg(t2);
+				addr = parseWrappedOffset(t2);
+			} else {
+				rs = parseReg(t2);
+				addr = 0;
+			}
 		} else if(r_type) {
 			rd = parseReg(t1);
 			rs = parseReg(t2);
@@ -98,6 +103,20 @@ public class Instruction {
 
 
 
+	}
+
+
+	private short parseWrappedOffset(String token) {
+		return parseAddr(token.substring(0, token.indexOf('(')));
+	}
+
+
+	private short parseWrappedReg(String token) {
+		try {
+			return parseReg(token.substring(token.indexOf('(')+1, token.indexOf(')')));
+		} catch (Exception e) {
+			return 0;
+		}
 	}
 
 
@@ -146,7 +165,7 @@ public class Instruction {
 			default:
 				throw new Exception("Invalid register " + register);
 			}
-			assert(register.equals(RegisterFile.name(number)));
+			assert register.equals(RegisterFile.name(number));
 			return number;
 		}
 
