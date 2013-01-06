@@ -77,7 +77,7 @@ public class Processor {
 		}
 
 		new_pc += 4;
-		branch_pc = new_pc + i.getAddr() << 2;
+		branch_pc = new_pc + (i.getAddr() << 2);
 
 		pc = mux(new_pc, branch_pc, control.isBranch());
 	}
