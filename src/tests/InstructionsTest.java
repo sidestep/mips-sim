@@ -66,7 +66,7 @@ public class InstructionsTest {
 	public void lw() throws Exception {
 		Instruction i = new Instruction("lw $t8, 0x50($t9)");
 		assertEquals("opcode", Instruction.OPCODE_LW, i.getOpcode());
-		assertEquals("rd", 24, i.getRd());
+		assertEquals("rt", 24, i.getRt());
 		assertEquals("rs", 25, i.getRs());
 		assertEquals("addr", 0x50,  i.getAddr());
 	}
@@ -75,7 +75,7 @@ public class InstructionsTest {
 	public void sw() throws Exception {
 		Instruction i = new Instruction("sw $gp, 4($ra)");
 		assertEquals("opcode", Instruction.OPCODE_SW, i.getOpcode());
-		assertEquals("rd", 28, i.getRd());
+		assertEquals("rt", 28, i.getRt());
 		assertEquals("rs", 31, i.getRs());
 		assertEquals("addr", 4, i.getAddr());
 	}
