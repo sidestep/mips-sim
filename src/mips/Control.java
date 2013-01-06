@@ -23,7 +23,7 @@ public class Control {
 	private boolean ALUsrc;
 	private boolean RegWrite;
 
-	public void setInstruction(Instruction instruction) {
+	public Control(Instruction instruction) {
 		short opcode = instruction.getOpcode();
 
 		if(instruction.is_r_type()) {
@@ -32,19 +32,19 @@ public class Control {
 			ALUOp1 = true;
 		}
 
-		if(opcode == Instruction.OPCODE_LW) {
+		else if(opcode == Instruction.OPCODE_LW) {
 			MemRead = true;
 			MemtoReg = true;
 			RegWrite = true;
 			ALUsrc = true;
 		}
 
-		if(opcode == Instruction.OPCODE_SW) {
+		else if(opcode == Instruction.OPCODE_SW) {
 			MemWrite = true;
 			ALUsrc = true;
 		}
 
-		if(opcode == Instruction.OPCODE_BEQ) {
+		else if(opcode == Instruction.OPCODE_BEQ) {
 			Branch = true;
 			ALUOp0 = true;
 		}

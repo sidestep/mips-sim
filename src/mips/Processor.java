@@ -9,13 +9,11 @@ public class Processor {
 	private Instruction[] instructions = {};
 	private int pc;
 
-	private Control control;
 	private RegisterFile register;
 	private MemoryFile memory;
 	private ALU alu;
 
 	public Processor() {
-		control = new Control();
 		register = new RegisterFile();
 		memory = new MemoryFile();
 		alu = new ALU();
@@ -49,12 +47,10 @@ public class Processor {
 			return;
 		}
 		i = instructions[pc/4];
-		control.setInstruction(i);
-
+		Control control = new Control(i);
 
 		rtv = register.get(i.getRt());
 		rsv = register.get(i.getRs());
-
 
 		alu_out = alu.operation(
 				ALUControl.getControl(control.isALUOp1(), control.isALUOp0(), i.getFunct()),
