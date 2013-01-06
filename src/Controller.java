@@ -53,7 +53,7 @@ public class Controller {
 		registerModel.clear();
 		memoryModel.clear();
 
-		byte[] registerData = processor.getRegisters();
+		int[] registerData = processor.getRegisters();
 		List<Integer> changedRegisters = processor.getChangedRegisters();
 		for(int index : changedRegisters) {
 			String repr = String.format(
@@ -61,7 +61,7 @@ public class Controller {
 			registerModel.addElement(repr);
 		}
 
-		byte[] memoryData = processor.getMemory();
+		int[] memoryData = processor.getMemory();
 		List<Integer> changedMemory = processor.getChangedMemory();
 		for(int index : changedMemory) {
 			String repr = String.format(
@@ -72,11 +72,11 @@ public class Controller {
 
 	}
 
-	private String string_value(short b) {
+	private String string_value(int b) {
 		if(hexadecimal) {
-			return String.format("0x%x", b & 0xff);
+			return String.format("0x%x", b & 0xffffffffL);
 		} else {
-			return String.format("%d", b & 0xff);
+			return String.format("%d", b & 0xffffffffL);
 		}
 	}
 

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class DataField {
-	private byte[] data;
+	private int[] data;
 	private List<Integer> changedFields;
 
 	public DataField(int size) {
-		data = new byte[size];
+		data = new int[size];
 		reset();
 	}
 
@@ -19,26 +19,26 @@ public abstract class DataField {
 		}
 	}
 
-	public byte get(int index) {
+	public int get(int index) {
 		return data[index];
 	}
 
-	protected void set(int index, byte value) {
+	protected void set(int index, int value) {
 		touch(index);
 		data[index] = value;
 	}
-	
+
 	private void touch(int index) {
 		if(changedFields.contains(index)) {
 			changedFields.remove(changedFields.indexOf(index));
 		}
 		changedFields.add(0, index);
 	}
-	
-	public byte[] getBytes() {
+
+	public int[] getRawData() {
 		return data.clone();
 	}
-	
+
 	public List<Integer> getChangedIndices() {
 		return new ArrayList<Integer>(changedFields);
 	}

@@ -7,7 +7,7 @@ public class RegisterFile extends DataField {
 	}
 
 	@Override
-	public byte get(int index) {
+	public int get(int index) {
 		if(index == 0) {
 			return 0; // $zero register
 		}
@@ -15,7 +15,7 @@ public class RegisterFile extends DataField {
 	}
 
 	@Override
-	protected void set(int index, byte value) {
+	protected void set(int index, int value) {
 		if(index == 0) {
 			return;
 		}

@@ -38,12 +38,12 @@ public class Processor {
 
 	public void step() {
 		Instruction i;
-		short alu_out = 0;
-		short data_out = 0;
-		short rtv = 0;
-		short rsv = 0;
+		int alu_out = 0;
+		int data_out = 0;
+		int rtv = 0;
+		int rsv = 0;
 
-		if(pc/4 >= instructions.length) {
+		if(isDone()) {
 			return;
 		}
 		i = instructions[pc/4];
@@ -75,7 +75,7 @@ public class Processor {
 
 	}
 
-	private short mux(short value1, short value2, boolean getSecond) {
+	private int mux(int value1, int value2, boolean getSecond) {
 		if(getSecond) {
 			return value2;
 		}
@@ -93,12 +93,12 @@ public class Processor {
 		return pc;
 	}
 
-	public byte[] getRegisters() {
-		return register.getBytes();
+	public int[] getRegisters() {
+		return register.getRawData();
 	}
 
-	public byte[] getMemory() {
-		return memory.getBytes();
+	public int[] getMemory() {
+		return memory.getRawData();
 	}
 
 	public List<Integer> getChangedRegisters() {
