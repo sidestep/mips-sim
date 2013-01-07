@@ -1,33 +1,19 @@
 # mips-sim
-A MIPS-simulator implementing a very small subset of the MIPS instruction set.
-
-Comes with a swing GUI
+mips-sim is a single-cycle MIPS processor simulator written in Java, 
+implementing a very small subset of the MIPS32 instruction set. 
+Included is a GUI that lets the user load a text file with assembly code, 
+that can then be run or stepped through, executing each instruction.
 
 
 ## Supported instructions
-* add
-* sub
-* and
-* or
-* nor
-* slt
-* lw
-* sw
-* beq
+* add Rd, Rs, Rt : Rd = Rs + Rt
+* sub Rd, Rs, Rt : Rd = Rs - Rt
+* and Rd, Rs, Rt : Rd = Rs & Rt
+* or Rd, Rs, Rt : Rd = Rs | Rt
+* nor Rd, Rs, Rt : Rd = ~(Rs | Rt)
+* slt Rd, Rs, Rt : Rd = (Rs < Rt)? 1: 0
+* lw Rt, Off16(Rs) : Rt = Mem32(Rs + Off16)
+* sw Rt, Off16(Rs) : Mem32(Rs + Off16) = Rt
+* beq Rs, Rt, Off18 : If Rs = Rt, PC += Off18
 * nop
 * exit
-
-## Instruction breakdown
-    add rd, rs, rt      0, 0x20
-    sub rd, rs, rt      0, 0x22
-    and rd, rs, rt      0, 0x24
-    or  rd, rs, rt      0, 0x25
-    nor rd, rs, rt      0, 0x27
-    slt rd, rs, rt      0, 0x2a
-
-    lw rt, offset(rs)   0x23
-    sw rt, offset(rs)   0x2b    
-
-    beq rs, rt, label   4
-    nop                 0
-    exit                0, 0xc with $v = 10 (???)
