@@ -14,7 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 
-
+/**
+ * A gui for displaying instructions, register values and memory values
+ * as well as providing means to load instructions and advance the simulation
+ */
 public class GUI {
 	private JFrame frame;
 	private JCheckBox hexBox;

@@ -12,6 +12,9 @@ import mips.Instruction;
 import mips.Processor;
 import mips.RegisterFile;
 
+/**
+ * A main class that ties together the GUI with the processor simulation
+ */
 public class Controller {
 	private GUI gui;
 	private Processor processor;
@@ -133,7 +136,11 @@ public class Controller {
 		step(); //Block until running stops
 		processor.reset();
 	}
-
+	
+	/**
+	 * Load mips assembly instructions from a file and feed them into the processor
+	 * @param filename where to parse the instructions from
+	 */
 	private void load(String filename) {
 		String line;
 		BufferedReader reader = null;
