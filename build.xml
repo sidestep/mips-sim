@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project mips-sim">
+    <target name="compile">
+        <mkdir dir="bin"/>
+        <javac srcdir="src" destdir="bin">
+            <exclude name="**/tests/*.java" />
+        </javac>
+    </target>
+    
+    <target name="create_run_jar" depends="compile">
+        <jar destfile="./mips-sim.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="Controller"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="./bin"/>
+        </jar>
+    </target>
+</project>

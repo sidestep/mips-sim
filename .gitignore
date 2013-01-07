@@ -1,2 +1,4 @@
 bin/
 debug.jpage
+.nfs*
+mips-sim.jar
