@@ -16,9 +16,9 @@ public class Controller {
 	private GUI gui;
 	private Processor processor;
 
-	private DefaultListModel<String> instructionModel;
-	private DefaultListModel<String> registerModel;
-	private DefaultListModel<String> memoryModel;
+	private DefaultListModel instructionModel;
+	private DefaultListModel registerModel;
+	private DefaultListModel memoryModel;
 
 	private volatile boolean running = false;
 	private boolean hexadecimal = false;
@@ -29,13 +29,13 @@ public class Controller {
 
 		processor = new Processor();
 
-		instructionModel = new DefaultListModel<String>();
+		instructionModel = new DefaultListModel();
 		gui.setInstructionListModel(instructionModel);
 
-		registerModel = new DefaultListModel<String>();
+		registerModel = new DefaultListModel();
 		gui.setRegisterListModel(registerModel);
 
-		memoryModel = new DefaultListModel<String>();
+		memoryModel = new DefaultListModel();
 		gui.setMemoryListModel(memoryModel);
 	}
 

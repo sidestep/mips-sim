@@ -20,20 +20,20 @@ public class GUI {
 	private JCheckBox hexBox;
 	private GUIListener listener;
 	private String filename;
-	private JList<String> instructionList;
-	private JList<String> registerList;
-	private JList<String> memoryList;
+	private JList instructionList;
+	private JList registerList;
+	private JList memoryList;
 
 
 	public GUI() {
 
-		instructionList = new JList<String>();
+		instructionList = new JList();
 		JScrollPane instructionPane = new JScrollPane(instructionList);
 		JPanel leftPanel = new JPanel(new BorderLayout());
 		leftPanel.add(instructionPane);
 
-		registerList = new JList<String>();
-		memoryList = new JList<String>();
+		registerList = new JList();
+		memoryList = new JList();
 		JScrollPane registerPane = new JScrollPane(registerList);
 		JScrollPane dataPane = new JScrollPane(memoryList);
 		JPanel rightPanel = new JPanel(new BorderLayout());
@@ -145,15 +145,15 @@ public class GUI {
 		this.listener = listener;
 	}
 
-	public void setInstructionListModel(ListModel<String> model){
+	public void setInstructionListModel(ListModel model){
 		instructionList.setModel(model);
 	}
 
-	public void setRegisterListModel(ListModel<String> model){
+	public void setRegisterListModel(ListModel model){
 		registerList.setModel(model);
 	}
 
-	public void setMemoryListModel(ListModel<String> model){
+	public void setMemoryListModel(ListModel model){
 		memoryList.setModel(model);
 	}
 
