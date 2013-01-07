@@ -111,7 +111,7 @@ public class Controller {
 				}
 				refreshLater();
 			};
-		}.run();
+		}.start();
 	}
 
 	/**
