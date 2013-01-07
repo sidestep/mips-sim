@@ -1,7 +1,7 @@
 # mips-sim
 mips-sim is a single-cycle MIPS processor simulator written in Java, 
 implementing a very small subset of the MIPS32 instruction set. 
-Included is a GUI that lets the user load a text file with assembly code, 
+Included is a GUI that lets the user load a text file with Assembly code, 
 that can then be run or stepped through, executing each instruction.
 
 ## Requirements
