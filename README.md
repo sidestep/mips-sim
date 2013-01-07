@@ -9,9 +9,14 @@ JDK 6 or later and optionally JUnit4
 
 ## Getting started
 Can be built with ant: 
+
     ant
-and then executed with
+    
+    
+and then executed with:
+
     java -jar mips-sim.jar
+    
 
 It can also opened as a project in Eclipse or similar IDE.
 
