@@ -46,7 +46,10 @@ public class Controller {
 	 * Refresh the interface with the current processor state
 	 */
 	private void refresh() {
-		int instructionIndex = processor.getPc()/4;
+		int pc = processor.getPc();
+		gui.setPc(pc);
+		
+		int instructionIndex = pc/4;
 		if(instructionIndex >= instructionModel.getSize()) {
 			gui.clearInstructionSelection();
 		} else {
@@ -71,8 +74,6 @@ public class Controller {
 					"%s: %s", string_value((short)index), string_value(memoryData[index]));
 			memoryModel.addElement(repr);
 		}
-
-
 	}
 
 	private String string_value(int b) {
