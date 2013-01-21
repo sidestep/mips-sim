@@ -1,7 +1,6 @@
 package mips;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * This class weaves together all the modules of the mips processor
@@ -56,48 +55,46 @@ public class Processor {
 		int alu_out = 0;
 		boolean alu_zero = false;
 		int data_out = 0;
-		int rtv = 0;
-		int rsv = 0;
+		int write_data;
+		int regData1 = 0;
+		int regData2 = 0;
 		int new_pc = pc.get();
 		int branch_pc;
 
 		if(isDone()) {
 			return;
 		}
+
+		//Fetch
 		i = instructions.fetch(pc);
 		Control control = new Control(i);
 
-		rtv = register.get(i.getRt());
-		rsv = register.get(i.getRs());
-		
+		//Reg
+		int writeReg = mux(i.getRt(), i.getRd(), control.isRegDist());
+		register.setRegisters(i.getRs(), i.getRt(), writeReg);
+		regData1 = register.readData1();
+		regData2 = register.readData2();
+
+
+		//Alu
 		alu.setOperation(
 				ALUControl.getControl(control.isALUOp1(), control.isALUOp0(), i.getFunct()),
-				mux(rtv, i.getAddr(), control.isALUsrc()),
-				rsv);
-		
+				mux(regData2, i.getAddr(), control.isALUsrc()),
+				regData1);
 		alu_out = alu.getOut();
 		alu_zero = alu.isZero();
 
+		//Mem
+		data_out = memory.cycle(alu_out, regData2, control.isMemRead(), control.isMemWrite());
 
-		if(control.isMemRead()) {
-			data_out = memory.get(alu_out);
-		}
+		//Writeback
+		write_data = mux(alu_out, data_out, control.isMemtoReg());
+		register.write(control.isRegWrite(), write_data);
 
-		if(control.isMemWrite()) {
-			memory.set(alu_out, rtv);
-		}
-
-		if(control.isRegWrite()) {
-			register.set(
-					mux(i.getRt(), i.getRd(), control.isRegDist()),
-					(byte)mux(alu_out, data_out, control.isMemtoReg()));
-		}
 
 		new_pc += 4;
 		branch_pc = new_pc + (i.getAddr() << 2);
-		
 		new_pc = mux(new_pc, branch_pc, control.isBranch() && alu_zero);
-		
 		pc.set(new_pc);
 	}
 

@@ -18,12 +18,18 @@ public class AluTest {
 	public void add() {
 		alu.setOperation(ALU.ADD, 3, 2);
 		assertEquals("3+2", 5, alu.getOut());
+
+		alu.setOperation(ALU.ADD, -1, -128);
+		assertEquals("-1 + -128", -129, alu.getOut());
 	}
 
 	@Test
 	public void subtract() {
 		alu.setOperation(ALU.SUBTRACT, 2, 3);
 		assertEquals("3-2", 1, alu.getOut());
+
+		alu.setOperation(ALU.SUBTRACT, 2, -3);
+		assertEquals("-3 - 2", -5, alu.getOut());
 	}
 
 	@Test
@@ -48,7 +54,7 @@ public class AluTest {
 	public void slt() {
 		alu.setOperation(ALU.SLT, 0xf, 0xe);
 		assertEquals("0xf < 0xe", 1, alu.getOut());
-		
+
 		alu.setOperation(ALU.SLT, 0xf, 0xfe);
 		assertEquals("0xf < 0xfe", 0,  alu.getOut());
 	}

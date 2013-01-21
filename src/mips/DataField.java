@@ -22,7 +22,7 @@ public abstract class DataField {
 		}
 	}
 
-	public int get(int index) {
+	protected int get(int index) {
 		return data[index];
 	}
 

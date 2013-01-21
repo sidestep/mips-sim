@@ -4,12 +4,37 @@ package mips;
  * The processor register file
  */
 public class RegisterFile extends DataField {
+	private int rr1;
+	private int rr2;
+	private int wr;
+
 	public RegisterFile() {
 		super(32);
 	}
 
+	public void setRegisters(int read1, int read2, int write) {
+		rr1 = read1;
+		rr2 = read2;
+		wr = write;
+	}
+
+	public int readData1() {
+		return get(rr1);
+	}
+
+	public int readData2() {
+		return get(rr2);
+	}
+
+	public void write(boolean RegWrite, int data) {
+		if(RegWrite) {
+			set(wr, data);
+		}
+	}
+
+
 	@Override
-	public int get(int index) {
+	protected int get(int index) {
 		if(index == 0) {
 			return 0; // $zero register
 		}

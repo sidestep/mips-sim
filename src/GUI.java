@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -14,7 +13,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.ListModel;
 import javax.swing.border.EmptyBorder;
 
@@ -22,6 +20,7 @@ import javax.swing.border.EmptyBorder;
  * A gui for displaying instructions, register values and memory values
  * as well as providing means to load instructions and advance the simulation
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class GUI {
 	private JFrame frame;
 	private JCheckBox hexBox;
@@ -84,14 +83,14 @@ public class GUI {
 		pcPane.setBorder(new EmptyBorder(0, 0, 0, 5));
 		pcPane.setEditable(false);
 		pcPane.setOpaque(false);
-		
+
 		JButton stepButton = new JButton("Step");
 		JButton runButton = new JButton("Run");
 		JButton stopButton = new JButton("Stop");
 		JButton resetButton = new JButton("Reset");
 		JPanel botPanel = new JPanel();
 		hexBox = new JCheckBox("Hex");
-		
+
 		botPanel.add(pcPane);
 		botPanel.add(stepButton);
 		botPanel.add(runButton);
@@ -152,7 +151,7 @@ public class GUI {
 		frame.setSize(1024, 768);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+
 		setPc(0);
 	}
 
@@ -189,7 +188,7 @@ public class GUI {
 	public void clearInstructionSelection() {
 		instructionList.clearSelection();
 	}
-	
+
 	public void setPc(int pc) {
 		pcPane.setText("PC: " + pc);
 	}
