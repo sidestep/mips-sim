@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -33,14 +34,18 @@ public class GUI {
 
 
 	public GUI() {
+		Font mono = new Font("Monospaced", Font.PLAIN, 13);
 
 		instructionList = new JList();
+		instructionList.setFont(mono);
 		JScrollPane instructionPane = new JScrollPane(instructionList);
 		JPanel leftPanel = new JPanel(new BorderLayout());
 		leftPanel.add(instructionPane);
 
 		registerList = new JList();
+		registerList.setFont(mono);
 		memoryList = new JList();
+		memoryList.setFont(mono);
 		JScrollPane registerPane = new JScrollPane(registerList);
 		JScrollPane dataPane = new JScrollPane(memoryList);
 		JPanel rightPanel = new JPanel(new BorderLayout());

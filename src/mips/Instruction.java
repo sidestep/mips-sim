@@ -25,7 +25,7 @@ public class Instruction {
 	private short rd = 0;
 	private short rs = 0;
 	private short rt = 0;
-	private short addr = 0;
+	private short imm = 0;
 	private boolean r_type = false;
 	private boolean is_exit;
 	private boolean is_nop;
@@ -94,10 +94,10 @@ public class Instruction {
 			rt = parseReg(t1);
 			if(t2.indexOf('(') != -1) {
 				rs = parseWrappedReg(t2);
-				addr = parseWrappedOffset(t2);
+				imm = parseWrappedOffset(t2);
 			} else {
 				rs = parseReg(t2);
-				addr = 0;
+				imm = 0;
 			}
 		} else if(r_type) {
 			rd = parseReg(t1);
@@ -107,7 +107,7 @@ public class Instruction {
 		} else if(opcode == OPCODE_BEQ) {
 			rs = parseReg(t1);
 			rt = parseReg(t2);
-			addr = parseAddr(t3);
+			imm = parseAddr(t3);
 		}
 
 	}
@@ -214,18 +214,13 @@ public class Instruction {
 	}
 
 
-	public short getAddr() {
-		return addr;
+	public short getImm() {
+		return imm;
 	}
 
 
 	public boolean is_r_type() {
 		return r_type;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("%s", repr);
 	}
 
 
@@ -236,5 +231,29 @@ public class Instruction {
 
 	public boolean isNop() {
 		return is_nop;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s", repr);
+	}
+
+	public String representation(boolean hex) {
+		if(r_type) {
+			if(hex) {
+				return String.format("%-22s (FUNCT:0x%x, RS:0x%x, RT:0x%x, RD:0x%x)", 
+						repr, funct, rs, rt, rd);
+			}
+			return String.format("%-22s (FUNCT:%d, RS:%d, RT:%d, RD:%d)", 
+					repr, funct, rs, rt, rd);
+		} else {
+			if(hex) {
+				return String.format("%-22s (OP:0x%x, RS:0x%x, RT:0x%x, IMM:0x%x)", 
+						repr, opcode, rs, rt, imm);
+			}
+			return String.format("%-22s (OP:%d, RS:%d, RT:%d, IMM:%d)", 
+					repr, opcode, rs, rt, imm);
+		}
+
 	}
 }

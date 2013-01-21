@@ -68,7 +68,7 @@ public class InstructionsTest {
 		assertEquals("opcode", Instruction.OPCODE_LW, i.getOpcode());
 		assertEquals("rt", 24, i.getRt());
 		assertEquals("rs", 25, i.getRs());
-		assertEquals("addr", 0x50,  i.getAddr());
+		assertEquals("addr", 0x50,  i.getImm());
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class InstructionsTest {
 		assertEquals("opcode", Instruction.OPCODE_SW, i.getOpcode());
 		assertEquals("rt", 28, i.getRt());
 		assertEquals("rs", 31, i.getRs());
-		assertEquals("addr", 4, i.getAddr());
+		assertEquals("addr", 4, i.getImm());
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class InstructionsTest {
 		assertEquals("opcode", Instruction.OPCODE_BEQ, i.getOpcode());
 		assertEquals("rs", 29, i.getRs());
 		assertEquals("rt", 30, i.getRt());
-		assertEquals("addr", 0x01, i.getAddr());
+		assertEquals("addr", 0x01, i.getImm());
 	}
 
 	@Test

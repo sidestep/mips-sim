@@ -79,7 +79,7 @@ public class Processor {
 		//Alu
 		alu.setOperation(
 				ALUControl.getControl(control.isALUOp1(), control.isALUOp0(), i.getFunct()),
-				mux(regData2, i.getAddr(), control.isALUsrc()),
+				mux(regData2, i.getImm(), control.isALUsrc()),
 				regData1);
 		alu_out = alu.getOut();
 		alu_zero = alu.isZero();
@@ -93,7 +93,7 @@ public class Processor {
 
 
 		new_pc += 4;
-		branch_pc = new_pc + (i.getAddr() << 2);
+		branch_pc = new_pc + (i.getImm() << 2);
 		new_pc = mux(new_pc, branch_pc, control.isBranch() && alu_zero);
 		pc.set(new_pc);
 	}

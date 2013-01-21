@@ -19,6 +19,7 @@ import mips.RegisterFile;
 public class Controller {
 	private GUI gui;
 	private Processor processor;
+	private List<Instruction> instructions;
 
 	private DefaultListModel instructionModel;
 	private DefaultListModel registerModel;
@@ -139,6 +140,13 @@ public class Controller {
 		processor.reset();
 	}
 
+	private void renderInstructions() {
+		instructionModel.clear();
+		for(Instruction i : instructions) {
+			instructionModel.addElement(i.representation(hexadecimal));
+		}
+	}
+
 	/**
 	 * Load mips assembly instructions from a file and feed them into the processor
 	 * @param filename where to parse the instructions from
@@ -146,7 +154,7 @@ public class Controller {
 	private void load(String filename) {
 		String line;
 		BufferedReader reader = null;
-		ArrayList<Instruction> instructions = new ArrayList<Instruction>();
+		instructions = new ArrayList<Instruction>();
 
 		instructionModel.clear();
 
@@ -170,7 +178,6 @@ public class Controller {
 				try {
 					Instruction instruction = new Instruction(line);
 					instructions.add(instruction);
-					instructionModel.addElement(instruction.toString());
 				} catch (Exception e) {
 					System.out.printf("Invalid instruction '%s' on line %d\n", line, i);
 				}
@@ -179,6 +186,7 @@ public class Controller {
 			System.out.printf("File reading error: %s \n", e.getMessage());
 		}
 		processor.setInstructionSet(instructions);
+		renderInstructions();
 		refresh();
 	}
 
@@ -215,12 +223,14 @@ public class Controller {
 		@Override
 		public void onHex() {
 			hexadecimal = true;
+			renderInstructions();
 			refresh();
 		}
 
 		@Override
 		public void onDec() {
 			hexadecimal = false;
+			renderInstructions();
 			refresh();
 		}
 	};
