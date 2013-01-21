@@ -46,7 +46,7 @@ public class Controller {
 	 * Refresh the interface with the current processor state
 	 */
 	private void refresh() {
-		int pc = processor.getPc();
+		int pc = processor.getPcValue();
 		gui.setPc(pc);
 		
 		int instructionIndex = pc/4;

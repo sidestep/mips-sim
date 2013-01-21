@@ -16,47 +16,41 @@ public class AluTest {
 
 	@Test
 	public void add() {
-		assertEquals("3+2",
-				5, 
-				alu.operation(ALU.ADD, 3, 2));
+		alu.setOperation(ALU.ADD, 3, 2);
+		assertEquals("3+2", 5, alu.getOut());
 	}
 
 	@Test
 	public void subtract() {
-		assertEquals("3-2",
-				1, 
-				alu.operation(ALU.SUBTRACT, 2, 3));
+		alu.setOperation(ALU.SUBTRACT, 2, 3);
+		assertEquals("3-2", 1, alu.getOut());
 	}
 
 	@Test
 	public void and() {
-		assertEquals("0xff & 0xf0",
-				0xf0, 
-				alu.operation(ALU.AND, 0xff, 0xf0));
+		alu.setOperation(ALU.AND, 0xff, 0xf0);
+		assertEquals("0xff & 0xf0", 0xf0, alu.getOut());
 	}
 
 	@Test
 	public void or() {
-		assertEquals("0xff | 0xf0",
-				0xff, 
-				alu.operation(ALU.OR, 0xff, 0xf0));
+		alu.setOperation(ALU.OR, 0xff, 0xf0);
+		assertEquals("0xff | 0xf0", 0xff, alu.getOut());
 	}
 
 	@Test
 	public void nor() {
-		assertEquals("0xaa ~| 0xee",
-				~(0xaa | 0xee), 
-				alu.operation(ALU.NOR, 0xaa, 0xee));
+		alu.setOperation(ALU.NOR, 0xaa, 0xee);
+		assertEquals("0xaa ~| 0xee", ~(0xaa | 0xee), alu.getOut());
 	}
 
 	@Test
 	public void slt() {
-		assertEquals("0xf < 0xe",
-				1, 
-				alu.operation(ALU.SLT, 0xf, 0xe));
-		assertEquals("0xf < 0xfe",
-				0, 
-				alu.operation(ALU.SLT, 0xf, 0xfe));
+		alu.setOperation(ALU.SLT, 0xf, 0xe);
+		assertEquals("0xf < 0xe", 1, alu.getOut());
+		
+		alu.setOperation(ALU.SLT, 0xf, 0xfe);
+		assertEquals("0xf < 0xfe", 0,  alu.getOut());
 	}
 
 

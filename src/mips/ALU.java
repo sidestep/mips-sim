@@ -10,23 +10,50 @@ public class ALU {
 	public static final short SUBTRACT = 6;
 	public static final short SLT = 7;
 	public static final short NOR = 12;
+	
+	private int out;
+	/**
+	 * @return the out value
+	 */
+	public int getOut() {
+		return out;
+	}
 
-	public int operation(short control, int srcv, int rsv) {
+	/**
+	 * @return the zero line control
+	 */
+	public boolean isZero() {
+		return zero;
+	}
+
+	private boolean zero;
+
+	public void setOperation(short control, int srcv, int rsv) {
+		zero = false;
+		out = 0;
+		
 		switch(control) {
 		case ADD:
-			return rsv + srcv;
+			out =  rsv + srcv;
+			break;
 		case SUBTRACT:
-			return rsv - srcv;
+			out = rsv - srcv;
+			if(out == 0) {
+				zero = true;
+			}
+			break;
 		case AND:
-			return rsv & srcv;
+			out = rsv & srcv;
+			break;
 		case OR:
-			return rsv | srcv;
+			out = rsv | srcv;
+			break;
 		case NOR:
-			return ~(rsv | srcv);
+			out = ~(rsv | srcv);
+			break;
 		case SLT:
-			return rsv < srcv ? 1 : 0;
+			out = rsv < srcv ? 1 : 0;
+			break;
 		}
-
-		return 0;
 	}
 }

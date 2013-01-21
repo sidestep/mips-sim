@@ -1,4 +1,5 @@
 package mips;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -9,20 +10,23 @@ import java.util.ListIterator;
  */
 public class Processor {
 
-	private Instruction[] instructions = {};
-	private int pc;
+	private ProgramCounter pc;
 
 	private RegisterFile register;
 	private MemoryFile memory;
 	private ALU alu;
 
+	private InstructionMemoryFile instructions;
+
 	/**
 	 * Creates a new processor with a zeroes register and memory
 	 */
 	public Processor() {
+		pc = new ProgramCounter();
+		instructions = new InstructionMemoryFile();
 		register = new RegisterFile();
-		memory = new MemoryFile();
 		alu = new ALU();
+		memory = new MemoryFile();
 	}
 
 	/**
@@ -31,11 +35,7 @@ public class Processor {
 	 * @param instructions
 	 */
 	public void setInstructionSet(List<Instruction> instructions) {
-		this.instructions = new Instruction[instructions.size()];
-		ListIterator<Instruction> iterator = instructions.listIterator();
-		for(int i = 0; i < instructions.size(); i++) {
-			this.instructions[i] = iterator.next();
-		}
+		this.instructions.load(new ArrayList<Instruction>(instructions));
 		reset();
 	}
 
@@ -43,7 +43,7 @@ public class Processor {
 	 * Resets all registers and memory locations to 0, and the pc to 0
 	 */
 	public void reset() {
-		pc = 0;
+		pc.reset();
 		register.reset();
 		memory.reset();
 	}
@@ -54,25 +54,29 @@ public class Processor {
 	public void step() {
 		Instruction i;
 		int alu_out = 0;
+		boolean alu_zero = false;
 		int data_out = 0;
 		int rtv = 0;
 		int rsv = 0;
-		int new_pc = pc;
+		int new_pc = pc.get();
 		int branch_pc;
 
 		if(isDone()) {
 			return;
 		}
-		i = instructions[pc/4];
+		i = instructions.fetch(pc);
 		Control control = new Control(i);
 
 		rtv = register.get(i.getRt());
 		rsv = register.get(i.getRs());
-
-		alu_out = alu.operation(
+		
+		alu.setOperation(
 				ALUControl.getControl(control.isALUOp1(), control.isALUOp0(), i.getFunct()),
 				mux(rtv, i.getAddr(), control.isALUsrc()),
 				rsv);
+		
+		alu_out = alu.getOut();
+		alu_zero = alu.isZero();
 
 
 		if(control.isMemRead()) {
@@ -91,8 +95,10 @@ public class Processor {
 
 		new_pc += 4;
 		branch_pc = new_pc + (i.getAddr() << 2);
-
-		pc = mux(new_pc, branch_pc, control.isBranch());
+		
+		new_pc = mux(new_pc, branch_pc, control.isBranch() && alu_zero);
+		
+		pc.set(new_pc);
 	}
 
 	private int mux(int value1, int value2, boolean getSecond) {
@@ -107,14 +113,14 @@ public class Processor {
 	 * @return
 	 */
 	public boolean isDone() {
-		return pc/4 >= instructions.length || instructions[pc/4].isExit();
+		return pc.get() >= instructions.length() || instructions.fetch(pc).isExit();
 	}
 
 	/**
-	 * @return the pc
+	 * @return the pc value
 	 */
-	public int getPc() {
-		return pc;
+	public int getPcValue() {
+		return pc.get();
 	}
 
 	public int[] getRegisters() {
